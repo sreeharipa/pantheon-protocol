@@ -17,6 +17,8 @@ firebase deploy --only firestore:rules
 firebase deploy --only storage
 ```
 
+Source is on GitHub (`origin` = `git@github.com:sreeharipa/pantheon-protocol.git`, branch `main`). **`git push` does not deploy** — Firebase Hosting only updates via the `firebase deploy` commands above; the two are independent.
+
 There is **no test suite or test runner**. `npm run build` (the `tsc -b` step) is the type-level correctness gate — run it after every change before deploying. Verify deploys are live with a cache-busted request: `curl -sI "https://pantheon-protocol.web.app/?cb=$RANDOM"` (`index.html` is intentionally `no-cache`; hashed `/assets/**` are `immutable`).
 
 Firebase config comes from `VITE_FIREBASE_*` in `.env.local` (copy from `.env.example`); Vite inlines them at build time. These are public identifiers, not secrets — access is gated by Security Rules.
