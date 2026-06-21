@@ -1,0 +1,13 @@
+{
+  "name": "Pantheon Protocol",
+  "short_name": "Pantheon",
+  "description": "Real-time multiplayer strategy card game — draft heroes, then duel.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#e7e5df",
+  "theme_color": "#e7e5df",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

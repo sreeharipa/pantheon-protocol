@@ -1,0 +1,29 @@
+rules_version = '2';
+
+// Pantheon Protocol — Cloud Storage rules.
+// Hero art under heroes/** is world-readable (so images are CDN-cacheable and load fast);
+// only admins may upload or replace it. Everything else is locked down.
+// Keep the admin allow-list in sync with ADMIN_EMAILS (src/firebase/auth.ts) and
+// firestore.rules.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['sreeharipa1999@gmail.com'];
+    }
+
+    match /heroes/{heroId}/{fileName} {
+      allow read: if true;
+      // Admin-only writes, capped at 5 MB and image content types.
+      allow write: if isAdmin()
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

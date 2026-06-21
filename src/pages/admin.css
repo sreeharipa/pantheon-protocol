@@ -1,0 +1,93 @@
+/* Admin / Game-Master interface styles. */
+
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--surface);
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabs { display: flex; gap: 6px; margin-top: 12px; }
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 6px;
+  font-size: 13px;
+  font-weight: 650;
+  border: 1.5px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  color: var(--ink-soft);
+}
+.tab.active { border-color: var(--line-strong); color: var(--ink); background: var(--paper); }
+
+.faction-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.hero-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  margin-bottom: 8px;
+}
+.hero-row.archived { opacity: 0.55; }
+
+.hero-thumb {
+  width: 44px; height: 44px;
+  border-radius: 8px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  object-fit: cover;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex: none;
+}
+
+.statline { display: flex; gap: 10px; font-size: 12px; color: var(--ink-soft); }
+.statline b { color: var(--ink); font-weight: 700; }
+
+/* Editor modal */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(20, 20, 20, 0.42);
+  display: flex; align-items: flex-end; justify-content: center;
+  z-index: 50;
+}
+.modal {
+  background: var(--surface);
+  width: 100%; max-width: 480px;
+  border-radius: 18px 18px 0 0;
+  max-height: 92dvh;
+  overflow-y: auto;
+  padding: 18px 18px calc(22px + env(safe-area-inset-bottom));
+}
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.img-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.img-slot {
+  aspect-ratio: 1;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; cursor: pointer; overflow: hidden; position: relative;
+  font-size: 11px; color: var(--ink-faint);
+}
+.img-slot img { width: 100%; height: 100%; object-fit: cover; }
+.img-slot .lvl { position: absolute; top: 4px; left: 5px; font-size: 10px; font-weight: 700;
+  background: rgba(255,255,255,0.85); padding: 1px 5px; border-radius: 5px; color: var(--ink); }

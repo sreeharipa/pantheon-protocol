@@ -1,0 +1,63 @@
+rules_version = '2';
+
+// Pantheon Protocol — Firestore Security Rules.
+// These enforce admin-only catalog writes at the database layer, so the admin gate is
+// real (not just a hidden UI button). Keep the admin allow-list in sync with
+// ADMIN_EMAILS in src/firebase/auth.ts.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Bootstrap admins by verified email. Mirror of ADMIN_EMAILS (src/firebase/auth.ts).
+    function isAdmin() {
+      return isSignedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['sreeharipa1999@gmail.com'];
+    }
+
+    // ── User profiles ──
+    // A user may read/write only their own profile, and may only mark themselves
+    // admin if their email is in the allow-list — preventing self-promotion.
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn()
+        && request.auth.uid == userId
+        && (request.resource.data.isAdmin == false || isAdmin());
+      allow delete: if false;
+    }
+
+    // ── Content catalog (admin-managed) ──
+    // Any signed-in player may read the catalog (needed to render heroes); only admins
+    // may write.
+    match /heroes/{heroId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+    match /heroImages/{heroId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+    match /artifacts/{artifactId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+    match /gameConfig/{docId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ── Matches ──
+    // Placeholder: any signed-in player may read/write match docs for now. This will be
+    // tightened in the Lobby/Duel milestone (e.g. only players in the match, and most
+    // mutations moved server-side once Cloud Functions are added).
+    match /matches/{matchId} {
+      allow read, write: if isSignedIn();
+      match /events/{eventId} {
+        allow read, write: if isSignedIn();
+      }
+    }
+  }
+}

@@ -1,0 +1,189 @@
+/* ── Pantheon Protocol — design tokens & base styles ───────────────────────
+   Mobile-first. Clean monochrome "paper + ink" language from the wireframe:
+   warm off-white ground, near-black ink, geometric faction marks (▲ ■ ◆),
+   bold uppercase wordmarks with wide letter-spacing.                          */
+
+:root {
+  --paper: #e7e5df;
+  --surface: #f7f7f6;
+  --surface-2: #ffffff;
+  --ink: #141414;
+  --ink-soft: #555555;
+  --ink-faint: #8a8a8a;
+  --line: #d4d2cb;
+  --line-strong: #1c1c1c;
+
+  /* Faction accents — used sparingly on marks & tags. */
+  --gods: #b8860b;       /* attack  ▲ */
+  --titans: #41607a;     /* defense ■ */
+  --demigods: #8a3b46;   /* resilience ◆ */
+
+  --danger: #a3302f;
+  --ok: #2f7a4a;
+
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 6px 22px rgba(0, 0, 0, 0.06);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  color-scheme: light;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button { font-family: inherit; cursor: pointer; }
+a { color: inherit; }
+
+/* ── App frame: a centered mobile column, like a phone screen ───────────── */
+.app-frame {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
+}
+
+/* ── Typography ─────────────────────────────────────────────────────────── */
+.wordmark {
+  font-weight: 800;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  line-height: 1.18;
+}
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
+.h2 { font-size: 17px; font-weight: 700; }
+.muted { color: var(--ink-soft); }
+.faint { color: var(--ink-faint); }
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1.5px solid var(--line-strong);
+  background: var(--ink);
+  color: #fff;
+  padding: 13px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  width: 100%;
+  transition: transform 0.04s ease, opacity 0.15s ease;
+}
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn.secondary { background: var(--surface-2); color: var(--ink); }
+.btn.ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.btn.danger { background: var(--surface-2); color: var(--danger); border-color: var(--danger); }
+.btn.sm { padding: 8px 12px; font-size: 13px; width: auto; }
+
+/* ── Cards & surfaces ───────────────────────────────────────────────────── */
+.card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.row { display: flex; align-items: center; gap: 12px; }
+.between { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.stack { display: flex; flex-direction: column; }
+.grow { flex: 1; }
+
+/* ── Faction marks ──────────────────────────────────────────────────────── */
+.mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+  line-height: 1;
+}
+.mark.gods { color: var(--gods); }
+.mark.titans { color: var(--titans); }
+.mark.demigods { color: var(--demigods); }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+/* ── Forms ──────────────────────────────────────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 12px; font-weight: 650; color: var(--ink-soft); }
+.input, select.input {
+  border: 1.5px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 15px;
+  color: var(--ink);
+  width: 100%;
+}
+.input:focus, select.input:focus { outline: none; border-color: var(--line-strong); }
+
+/* ── Misc ───────────────────────────────────────────────────────────────── */
+.spinner {
+  width: 26px; height: 26px;
+  border: 3px solid var(--line);
+  border-top-color: var(--ink);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.center-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.notice {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.notice.warn { border-color: #d9b24a; background: #fbf4df; color: #7a5a17; }
